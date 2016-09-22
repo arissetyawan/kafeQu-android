@@ -7,7 +7,7 @@ public class User {
     InputValidator  inputValidatorHelper = new InputValidator();
 
     protected StringBuilder errMsg = new StringBuilder("Check input and try again.\n");
-    private boolean allowSave;
+    private boolean allowSave = true;
     protected String username;
     protected String password;
     protected String shopname;
@@ -57,7 +57,6 @@ public class User {
             errMsg.append("- shop name should not be empty.\n");
             allowSave = false;
         }
-        allowSave = true;
         return allowSave;
     }
 
