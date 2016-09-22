@@ -1,12 +1,14 @@
 package com.go35.arissetyawan.kafequ;
 
+import java.util.HashMap;
+
 /**
  * Created by arissetyawan on 22/09/16.
  */
 public class User {
     InputValidator  inputValidatorHelper = new InputValidator();
 
-    protected StringBuilder errMsg = new StringBuilder("Check input and try again.\n");
+    protected HashMap errors = new HashMap();
     private boolean allowSave = true;
     protected String username;
     protected String password;
@@ -42,19 +44,23 @@ public class User {
         return true;
     }
 
+    protected boolean authenticate(){
+        return false;
+    }
+
     protected boolean validate(){
         //Validate and Save
         if (username == null && !inputValidatorHelper.isValidEmail(username)) {
-            errMsg.append("- invalid email address.\n");
+            errors.put("username", "invalid email address");
             allowSave = false;
         }
 
         if (inputValidatorHelper.isNullOrEmpty(password)) {
-            errMsg.append("- password should not be empty.\n");
+            errors.put("password", "cant be empty");
             allowSave = false;
         }
         if (inputValidatorHelper.isNullOrEmpty(shopname)) {
-            errMsg.append("- shop name should not be empty.\n");
+            errors.put("shopname", "cant be empty");
             allowSave = false;
         }
         return allowSave;
