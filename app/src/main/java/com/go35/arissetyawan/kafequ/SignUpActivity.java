@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-        // -- register click event with second button ---
+
         lButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setContentView(R.layout.activity_login);
