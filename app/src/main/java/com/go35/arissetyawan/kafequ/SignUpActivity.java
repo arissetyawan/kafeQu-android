@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -25,31 +26,29 @@ public class SignUpActivity extends AppCompatActivity {
         // -- register click event with first button ---
         sButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView u = (TextView) findViewById(R.id.signup_username);
-                TextView p = (TextView) findViewById(R.id.signup_password);;
-                TextView s = (TextView) findViewById(R.id.signup_shop_name);
-
-                if(TextUtils.isEmpty(u.getText().toString()))
-                {
-                    u.setError("cant be blank");
+                User user = new User();
+                user.usernameInput = (TextView) findViewById(R.id.signup_username);
+                user.passwordInput = (TextView) findViewById(R.id.signup_password);
+                user.shopnameInput = (TextView) findViewById(R.id.signup_shop_name);
+                if(user.validate()) {
+                    Intent intentMain = new Intent(SignUpActivity.this, MainActivity.class);
+                    SignUpActivity.this.startActivity(intentMain);
                 }
-                if(TextUtils.isEmpty(p.getText().toString()))
-                {
-                    p.setError("cant be blank");
-                }
-                if(TextUtils.isEmpty(s.getText().toString()))
-                {
-                    s.setError("cant be blank");
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), user.message,Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    user.displayErrors();
                 }
             }
         });
 
         lButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 Intent intentMain = new Intent(SignUpActivity.this ,LoginActivity.class);
                 SignUpActivity.this.startActivity(intentMain);
-                Log.i("Content "," Main layout ");            }
+                Log.i("Content "," Main layout ");
+            }
         });
     }
 }

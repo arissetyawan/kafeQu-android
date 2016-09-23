@@ -1,22 +1,35 @@
 package com.go35.arissetyawan.kafequ;
 
+import android.util.Log;
+import android.widget.TextView;
+
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by arissetyawan on 22/09/16.
  */
 public class User {
     InputValidator  inputValidatorHelper = new InputValidator();
+    private static final String TAG = "User";
+
+    private int id;
+    private Date createdAt;
+    private boolean allowSave = true;
 
     protected HashMap errors = new HashMap();
-    private boolean allowSave = true;
+
     protected String username;
     protected String password;
     protected String shopname;
     protected String message;
-    private int id;
-    private Date createdAt;
+
+    protected TextView usernameInput;
+    protected TextView passwordInput;
+    protected TextView shopnameInput;
 
     public void User(String username, String password, String shopname){
         this.username = username;
@@ -48,11 +61,37 @@ public class User {
     }
 
     protected boolean authenticate(){
+
+        if(loginValidation())
+        {
+            return true;
+        }
         return false;
     }
 
-    protected boolean validate(boolean login){
-        //Validate and Save
+    protected void displayErrors()
+    {
+        Set set = errors.entrySet();
+        Iterator i = set.iterator();
+
+        while(i.hasNext()) {
+
+            Map.Entry me = (Map.Entry)i.next();
+            if(me.getKey()=="username"){
+                usernameInput.setError(me.getValue().toString());
+            }
+            if(me.getKey()=="password"){
+                passwordInput.setError(me.getValue().toString());
+            }
+            if(me.getKey()=="shopname"){
+                shopnameInput.setError(me.getValue().toString());
+            }
+        }
+    }
+
+    private boolean loginValidation(){
+        this.username = this.usernameInput.getText().toString();
+        this.password = this.passwordInput.getText().toString();
         if (inputValidatorHelper.isNullOrEmpty(username)) {
             errors.put("username", "cant be blank");
             allowSave = false;
@@ -67,7 +106,17 @@ public class User {
             errors.put("password", "cant be empty");
             allowSave = false;
         }
-        if (!login && inputValidatorHelper.isNullOrEmpty(shopname)) {
+        if(!allowSave){
+            message = "Login has failed";
+        }
+        return allowSave;
+    }
+
+    protected boolean validate(){
+        allowSave = loginValidation();
+        this.shopname = this.shopnameInput.getText().toString();
+
+        if (inputValidatorHelper.isNullOrEmpty(shopname)) {
             errors.put("shopname", "cant be empty");
             allowSave = false;
         }
