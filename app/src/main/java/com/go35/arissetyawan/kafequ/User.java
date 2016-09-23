@@ -1,5 +1,6 @@
 package com.go35.arissetyawan.kafequ;
 
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -15,6 +16,7 @@ public class User {
     protected String shopname;
     protected String message;
     private int id;
+    private Date createdAt;
 
     public void User(String username, String password, String shopname){
         this.username = username;
@@ -56,7 +58,7 @@ public class User {
             allowSave = false;
         }
 
-        if (!inputValidatorHelper.isValidEmail(username)) {
+        if (!inputValidatorHelper.isNullOrEmpty(username) && !inputValidatorHelper.isValidEmail(username)) {
             errors.put("username", "is invalid email");
             allowSave = false;
         }
