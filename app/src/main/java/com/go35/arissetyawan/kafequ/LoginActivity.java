@@ -1,10 +1,12 @@
 package com.go35.arissetyawan.kafequ;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +29,15 @@ public class LoginActivity extends AppCompatActivity {
         lButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 User user = new User();
-                TextView usernameInput = (TextView) findViewById(R.id.login_username);
-                TextView passwordInput = (TextView) findViewById(R.id.login_password);
-
+                usernameInput = (TextView) findViewById(R.id.login_username);
+                passwordInput = (TextView) findViewById(R.id.login_password);
                 user.username = usernameInput.getText().toString();
                 user.password = passwordInput.getText().toString();
-                if(user.validate()){
+                if(user.validate(true)){
                     Log.d("OK", "OKKK");
                 }
                 else{
+                    Toast.makeText(getApplicationContext(), user.message,Toast.LENGTH_SHORT).show();
                     displayErrors(user.errors);
                 }
             }
@@ -43,7 +45,9 @@ public class LoginActivity extends AppCompatActivity {
 
         sButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setContentView(R.layout.activity_sign_up);
+                Intent intentMain = new Intent(LoginActivity.this ,SignUpActivity.class);
+                LoginActivity.this.startActivity(intentMain);
+                Log.i("Content "," Main layout ");
             }
         });
     }
@@ -61,9 +65,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             if(me.getKey()=="password"){
                 passwordInput.setError(me.getValue().toString());
-            }
-            if(me.getKey()=="shopname"){
-                usernameInput.setError(me.getValue().toString());
             }
         }
     }

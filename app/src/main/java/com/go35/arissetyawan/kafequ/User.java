@@ -13,6 +13,7 @@ public class User {
     protected String username;
     protected String password;
     protected String shopname;
+    protected String message;
     private int id;
 
     public void User(String username, String password, String shopname){
@@ -48,10 +49,15 @@ public class User {
         return false;
     }
 
-    protected boolean validate(){
+    protected boolean validate(boolean login){
         //Validate and Save
-        if (username == null && !inputValidatorHelper.isValidEmail(username)) {
-            errors.put("username", "invalid email address");
+        if (inputValidatorHelper.isNullOrEmpty(username)) {
+            errors.put("username", "cant be blank");
+            allowSave = false;
+        }
+
+        if (!inputValidatorHelper.isValidEmail(username)) {
+            errors.put("username", "is invalid email");
             allowSave = false;
         }
 
@@ -59,9 +65,12 @@ public class User {
             errors.put("password", "cant be empty");
             allowSave = false;
         }
-        if (inputValidatorHelper.isNullOrEmpty(shopname)) {
+        if (!login && inputValidatorHelper.isNullOrEmpty(shopname)) {
             errors.put("shopname", "cant be empty");
             allowSave = false;
+        }
+        if(!allowSave){
+            message = "Check input and try again";
         }
         return allowSave;
     }

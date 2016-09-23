@@ -1,10 +1,13 @@
 package com.go35.arissetyawan.kafequ;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,8 +46,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         lButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setContentView(R.layout.activity_login);
-            }
+
+                Intent intentMain = new Intent(SignUpActivity.this ,LoginActivity.class);
+                SignUpActivity.this.startActivity(intentMain);
+                Log.i("Content "," Main layout ");            }
         });
     }
 }
